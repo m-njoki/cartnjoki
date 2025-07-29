@@ -2,60 +2,35 @@ const Order = require('../models/Order');
 const routerOrder = require('express').Router();
 const Product = require('../models/Product');
 
-/*}
-routerOrder.post('/', async (req, res) => {
-  try {
-    const { products } = req.body;
-    let total = 0;
-    for (let item of products) {
-      const prod = await Product.findById(item.productId);
-      if (!prod || prod.inStock < item.quantity) {
-        return res.status(400).json({ error: 'Invalid product or insufficient stock' });
-      }
-      total += prod.price * item.quantity;
-    }
-
-    for (let item of products) {
-      await Product.findByIdAndUpdate(item.productId, { $inc: { inStock: -item.quantity } });
-    }
-
-    const order = new Order({ products, totalAmount: total });
-    await order.save();
-    res.status(201).json(order);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-});*/
 
 routerOrder.post('/', async (req, res) => {
   try {
-    const { products, address, pickupStation } = req.body;
+    const { products, address, pickupStation, deliveryFee = 0 } = req.body;
 
-    // Validate required fields
     if (!products || !address || !pickupStation) {
       return res.status(400).json({ error: 'Products, address and pickup station are required.' });
     }
 
-    // Calculate totalAmount
     let totalAmount = 0;
 
     for (const item of products) {
       const product = await Product.findById(item.productId);
       if (!product || product.inStock < item.quantity) {
         return res.status(400).json({ error: 'Invalid product or insufficient stock' });
-    }
+      }
       totalAmount += product.price * item.quantity;
     }
 
-    // Update product stock
+    // Add the delivery fee to the total
+    totalAmount += deliveryFee;
+
+    // Update stock
     for (const item of products) {
-        await Product.findByIdAndUpdate(item.productId, {
-            $inc: { inStock: -item.quantity }
-        });
+      await Product.findByIdAndUpdate(item.productId, {
+        $inc: { inStock: -item.quantity }
+      });
     }
 
-
-    // Create new order
     const order = new Order({
       products,
       address,
@@ -65,11 +40,13 @@ routerOrder.post('/', async (req, res) => {
 
     await order.save();
     res.status(201).json(order);
+
   } catch (error) {
     console.error('Error creating order:', error);
     res.status(500).json({ error: 'Server error' });
   }
 });
+
 
 
 

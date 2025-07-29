@@ -1,4 +1,12 @@
-export default function CartPage({ cart, onRemoveFromCart, onIncreaseQty, onClearCart}) {
+import { useNavigate } from "react-router-dom";
+
+export default function CartPage({ cart, onRemoveFromCart, onIncreaseQty, onClearCart }) {
+  const navigate = useNavigate();
+
+  const handleOrderNow = () => {
+    navigate("/orders"); // Make sure this route exists in your router
+  };
+
   return (
     <div className="max-w-3xl mx-auto mt-10 px-4">
       <h2 className="text-2xl font-bold mb-6 text-center">My Cart</h2>
@@ -9,9 +17,17 @@ export default function CartPage({ cart, onRemoveFromCart, onIncreaseQty, onClea
         <ul className="space-y-4">
           {cart.map(item => (
             <li key={item._id} className="border p-4 rounded flex justify-between items-center">
-              <div>
-                <h3 className="font-semibold">{item.name}</h3>
-                <p>KES {item.price} × {item.quantity} = <strong>KES {(item.price * item.quantity).toLocaleString()}</strong></p>
+              <div className="flex items-center space-x-4">
+                <img
+                  src={item.imageUrl || "https://via.placeholder.com/60"}
+                  alt={item.name}
+                  className="w-16 h-16 object-cover rounded"
+                />
+                <div>
+                  <h3 className="font-semibold">{item.name}</h3>
+                  <p className="text-sm text-gray-600">{item.description}</p>
+                  <p>KES {item.price} × {item.quantity} = <strong>KES {(item.price * item.quantity).toLocaleString()}</strong></p>
+                </div>
               </div>
 
               <div className="flex items-center space-x-2">
@@ -34,25 +50,33 @@ export default function CartPage({ cart, onRemoveFromCart, onIncreaseQty, onClea
         </ul>
       )}
 
-      
       {cart.length > 0 && (
-  <div className="mt-8 border-t pt-4 text-right">
-    <h3 className="text-lg font-semibold">
-      Total: KES{" "}
-      {cart
-        .reduce((total, item) => total + item.price * item.quantity, 0)
-        .toLocaleString()}
-    </h3>
+        <div className="mt-8 border-t pt-4 text-right">
+          <h3 className="text-lg font-semibold mb-2">
+            Total: KES{" "}
+            {cart
+              .reduce((total, item) => total + item.price * item.quantity, 0)
+              .toLocaleString()}
+          </h3>
+          <p className="text-sm text-gray-500 italic mt-1">
+            *Delivery fee not included yet.
+          </p>
 
-    <button
-      onClick={onClearCart}
-      className="mt-2 p-2 text-sm text-red-600 rounded shadow"
-    >
-      Clear Cart
-    </button>
-  </div>
-)}
+          <button
+            onClick={onClearCart}
+            className="mr-4 py-2 px-4 text-sm font-bold text-red-600 border border-red-300 rounded hover:bg-red-100"
+          >
+            Clear Cart
+          </button>
 
+          <button
+            onClick={handleOrderNow}
+            className="bg-electric hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Order Now
+          </button>
+        </div>
+      )}
     </div>
   );
 }
