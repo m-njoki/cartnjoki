@@ -1,6 +1,16 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { AuthContext } from "../context/AuthContext";
 
 export default function Navbar({ cartCount }) {
+  const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+
   return (
     <nav className="bg-gray-900 text-white px-6 py-4 flex justify-between items-center">
       <h1 className="font-bold text-xl text-electric">TechFlow</h1>
@@ -25,9 +35,26 @@ export default function Navbar({ cartCount }) {
         <li>
           <Link to="/payments" className="hover:text-electric">PAYMENTS</Link>
         </li>
-        <li>
-          <Link to="/login" className="px-2 py-2 bg-charcoal rounded hover:text-electric">LOGIN</Link>
-        </li>
+
+        {user ? (
+          <li>
+            <button
+              onClick={handleLogout}
+              className="bg-charcoal hover:text-electric"
+            >
+              LOGOUT
+            </button>
+          </li>
+        ) : (
+          <li>
+            <Link
+              to="/login"
+              className="bg-charcoal hover:text-electric"
+            >
+              LOGIN
+            </Link>
+          </li>
+        )}
       </ul>
     </nav>
   );
