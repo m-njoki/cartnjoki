@@ -39,14 +39,14 @@ export default function ProductForm({ product, onSuccess, onCancel }) {
       onSuccess(); // refresh list or close modal
     } catch (err) {
       console.error(err);
-      alert('❌ Failed to save product');
+      alert('Failed to save product!');
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 bg-white border p-4 rounded shadow max-w-md">
       <h2 className="text-lg font-semibold text-primary">
-        {product ? '✏️ Edit Product' : '➕ Add Product'}
+        {product ? 'Edit Product' : 'Add Product'}
       </h2>
 
       <input
@@ -86,7 +86,7 @@ export default function ProductForm({ product, onSuccess, onCancel }) {
 
       <div className="flex justify-end gap-2">
         <button type="button" onClick={onCancel} className="text-gray-500">Cancel</button>
-        <button type="submit" className="bg-primary text-white px-4 py-2 rounded hover:bg-violet-700">
+        <button type="submit" className="bg-pink-500 text-white px-4 py-2 rounded hover:bg-violet-700">
           {product ? 'Update' : 'Create'}
         </button>
       </div>

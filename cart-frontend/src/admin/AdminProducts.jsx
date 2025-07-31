@@ -37,9 +37,9 @@ export default function AdminProducts() {
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-semibold text-primary">📦 All Products</h1>
-        <button onClick={handleAddNew} className="bg-accent text-white px-4 py-2 rounded">
-          ➕ New Product
+        <h1 className="text-2xl font-semibold text-electric"> ALL PRODUCTS</h1>
+        <button onClick={handleAddNew} className="bg-pink-500 font-semibold text-white px-4 py-2 rounded">
+          + Add Product
         </button>
       </div>
 
@@ -65,7 +65,7 @@ export default function AdminProducts() {
             </div>
             <div className="mt-4 flex justify-end gap-2">
               <button
-                className="px-3 py-1 text-xs bg-yellow-500 text-white rounded"
+                className="px-3 py-1 text-xs bg-pink-500 text-white rounded"
                 onClick={() => handleEdit(product)}
               >
                 Edit

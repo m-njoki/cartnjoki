@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 export default function Navbar({ cartCount }) {
   return (
-    <nav className="bg-charcoal text-white px-6 py-4 flex justify-between items-center">
+    <nav className="bg-gray-900 text-white px-6 py-4 flex justify-between items-center">
       <h1 className="font-bold text-xl text-electric">TechFlow</h1>
 
       <ul className="flex space-x-6 text-sm font-medium">
@@ -24,6 +24,9 @@ export default function Navbar({ cartCount }) {
         </li>
         <li>
           <Link to="/payments" className="hover:text-electric">PAYMENTS</Link>
+        </li>
+        <li>
+          <Link to="/login" className="px-2 py-2 bg-charcoal rounded hover:text-electric">LOGIN</Link>
         </li>
       </ul>
     </nav>

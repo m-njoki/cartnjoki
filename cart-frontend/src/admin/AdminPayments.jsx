@@ -12,7 +12,7 @@ export default function AdminPayments() {
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold mb-6 text-primary">💳 Payment History</h1>
+      <h1 className="text-2xl font-semibold mb-6 text-electric">PAYMENT HISTORY</h1>
 
       <table className="w-full bg-white shadow rounded overflow-hidden">
         <thead className="bg-gray-100 text-sm text-gray-700">
